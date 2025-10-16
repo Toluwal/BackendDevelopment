@@ -1,4 +1,3 @@
-# get.py
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
@@ -10,7 +9,7 @@ data = [
 ]
 
 class BasicAPI(BaseHTTPRequestHandler):
-    def send_data(self,data, status = 200):
+    def send_data(self, data, status = 200):
         self.send_response(status)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
