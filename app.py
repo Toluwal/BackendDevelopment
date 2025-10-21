@@ -31,19 +31,29 @@ def create_data(req: Item):
 @app.put("/update-data/{id}")
 def update_data(id:int, req:Item):
     data[id] = req.dict()
-    print(data)
+    # print(data)
     return{"message": "Data updated", "Data":data}
 
 @app.delete("/delete-data/{id}")
-def delete_data(id:int, req:Item):
-    data[id] = req.dict()
-    print(data)
-    return{"message": "Data deleted", "Data":data}
+def delete_data(id: int):
+    if id < 0 or id >= len(data):
+        return {"error": "Invalid ID"}
+    deleted_item = data.pop(id)
+    # print(data)
+    return {"message": "Data deleted", "Deleted Item": deleted_item, "Data": data}
 
-@app.patch("/patch-data")
-def patch_data()
+
+@app.patch("/update-partial/{id}")
+def update_partial(id: int, req: Item):
+    if id < 0 or id >= len(data):
+        return {"error": "Invalid ID"}
     
-if __name__ == "__main__":
-    print(os.getenv("host"))
-    print(os.getenv("port"))
-    uvicorn.run(app, host=os.getenv("host"), port=int(os.getenv("port")))
+    existing_item = data[id]
+    
+    updates = req.dict(exclude_unset=True)  
+    for key, value in updates.items():
+        existing_item[key] = value
+    
+    data[id] = existing_item
+    # print(data)
+    return {"message": "Data partially updated", "Updated Data": existing_item}
