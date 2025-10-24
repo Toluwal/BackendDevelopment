@@ -1,0 +1,9 @@
+pandas
+fastapi
+pydantic
+uvicorn
+dotenv
+pymysql
+SQLAlchemy
+pyJWT
+alembic
